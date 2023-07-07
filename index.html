@@ -45,7 +45,10 @@
     <button id="connectButton">Connect</button>
     <button id="depositButton">Deposit 1 ETH</button>
     <button id="depositCollateralButton">Deposit 1 ETH as Collateral</button>
-    <button id="createLoanButton">Create Loan</button>
+    <div>
+        <input id="loanAmountInput" type="text" placeholder="Enter loan amount" />
+        <button id="createLoanButton">Create Loan</button>
+    </div>
     <button id="repayLoanButton">Repay Loan</button>
     <button id="withdrawCollateralButton">Withdraw Collateral</button>
 
@@ -274,10 +277,11 @@
         }
 
         async function createLoan() {
-            const maxLoanAmount = await contract.methods.getMaxLoanAmount(accounts[0]).call();
-            await contract.methods.createLoan(maxLoanAmount).send({ from: accounts[0] });
+            const loanAmount = document.getElementById('loanAmountInput').value;
+            await contract.methods.createLoan(web3.utils.toWei(loanAmount, 'ether')).send({ from: accounts[0] });
             console.log("Loan created");
         }
+
 
         async function repayLoan() {
             const { isActive, amount } = await contract.methods.getLoanDetails(accounts[0]).call();
