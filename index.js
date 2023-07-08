@@ -227,22 +227,6 @@ const contractAddress = "0x85DB6F29409dA1d2e29f3390C6f7AED95d796E6D"; // Add con
 const contract = new web3.eth.Contract(contractABI, contractAddress);
 let accounts = [];
 
-// Restore session from local storage
-const selectedAddress = localStorage.getItem('selectedAddress');
-if (selectedAddress) {
-    window.ethereum.enable();
-    window.web3.eth.defaultAccount = selectedAddress;
-}
-
-// Store session changes to local storage
-window.ethereum.on('accountsChanged', function (accounts) {
-    localStorage.setItem('selectedAddress', accounts[0]);
-    window.web3.eth.defaultAccount = accounts[0];
-});
-      } else {
-    console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
-}
-
 async function connect() {
     accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
     console.log("Connected: ", accounts[0]);
