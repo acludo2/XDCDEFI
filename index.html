@@ -97,7 +97,7 @@
         <div id="price-ticker">
             Current Price: 
         </div>
-        Refresh in <span id="countdown"> </span> s
+        <span id="countdown">Refresh in 0 seconds</span>
         <div class="image-container">
             <button id="depositButton">Deposit 1 XDC</button><button id="depositMaxButton" value=1>Deposit Max XDC (max
                 is: )</button>
@@ -120,7 +120,7 @@ const updateCountdown = () => {
         countdown = 5; // Reset the countdown
         fetchCryptoData(); // Fetch new data
     }
-    document.getElementById('countdown').innerText = countdown.toString();
+    document.getElementById('countdown').innerText = "Refresh in " + countdown.toString() + " seconds";
 };
         
         const fetchCryptoData = () => {
