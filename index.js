@@ -228,7 +228,19 @@ const contract = new web3.eth.Contract(contractABI, contractAddress);
 let accounts = [];
 
 async function connect() {
+    const selectedAddress = localStorage.getItem('selectedAddress');
+        if (selectedAddress) {
+          window.ethereum.enable();
+          window.web3.eth.defaultAccount = selectedAddress;
+        }
+    
     accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+    window.ethereum.on('accountsChanged', function (accounts) {
+          localStorage.setItem('selectedAddress', accounts[0]);
+          window.web3.eth.defaultAccount = accounts[0];
+        });
+    
     console.log("Connected: ", accounts[0]);
     //let balance = await web3.eth.getBalance(accounts[0]).then(console.log);
     web3.eth.getChainId().then(console.log);
