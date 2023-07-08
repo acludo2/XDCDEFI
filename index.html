@@ -119,8 +119,6 @@
         .then(response => response.json())
         .then(data => {
             console.log(data);
-            listItem.innerText = `${data.symbol}: ${data.price}`;
-            price-ticker
             document.getElementById("price-ticker").innerHTML = "Current Price: " + data.price + " USDT/XDC";
         })
         .catch(error => {
