@@ -91,14 +91,13 @@
             <div>
                 <span id="balance">Balance: XDC</span>
                 <button id="connectButton">Connect</button>
-
             </div>
         </div>
 
         <div id="price-ticker">
             Current Price: 
         </div>
-
+        Refresh in <span id="countdown"> </span> s
         <div class="image-container">
             <button id="depositButton">Deposit 1 XDC</button><button id="depositMaxButton" value=1>Deposit Max XDC (max
                 is: )</button>
@@ -113,6 +112,17 @@
         </div>
     </body>
     <script>
+
+        let countdown = 5; // Set the initial countdown value (in seconds)
+const updateCountdown = () => {
+    countdown--;
+    if (countdown === 0) {
+        countdown = 5; // Reset the countdown
+        fetchCryptoData(); // Fetch new data
+    }
+    document.getElementById('countdown').innerText = countdown.toString();
+};
+        
         const fetchCryptoData = () => {
     const apiUrl = 'https://bitrue.armsves.workers.dev';
      fetch(apiUrl, { })
@@ -125,8 +135,8 @@
             console.log('Error fetching crypto data:', error);
         });
  };
+setInterval(updateCountdown, 1000);
 fetchCryptoData();
-setInterval(fetchCryptoData, 5000);
         
         const web3 = new Web3(window.ethereum);
         const contractABI = [
