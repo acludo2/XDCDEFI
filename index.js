@@ -302,12 +302,15 @@ fetchCryptoData();
 
         async function loadLoanDetails() {
             let result = await contract.methods.getLoanDetails(accounts[0]).call();
+            const collateralBalance = await contract.methods.collateral(accounts[0]).call();
             //const loanAmountInEth = web3.utils.fromWei(amount, 'ether');
             let loanDetailsText = "No active loan.";
             if (result[0]) {
                 loanDetailsText = `Active loan amount: ${result[1]} XDC`;
             }
             document.getElementById('loanDetails').innerHTML = loanDetailsText;
+            console.log("cola",collateralBalance)
+            document.getElementById('collateralBalanceI').innerHTML = `${collateralBalance}`;
         }
 
 
