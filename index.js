@@ -15,7 +15,7 @@ const fetchCryptoData = () => {
         .then(data => {
             console.log(data);
             price-ticker = document.getElementById("price-ticker");
-            if (price-ticker) {
+            if (price-ticker != null) {
                 document.getElementById("price-ticker").innerHTML = "Current Price: " + data.price + " USDT/XDC";
             }
         })
