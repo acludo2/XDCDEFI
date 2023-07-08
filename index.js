@@ -1,11 +1,9 @@
     const selectedAddress = localStorage.getItem('selectedAddress');
         if (selectedAddress) {
          console.log("Localstorage: " + selectedAddress);
-          window.ethereum.enable();
+          //window.ethereum.enable();
           window.web3.eth.defaultAccount = selectedAddress;
-            accounts[0] = selectedAddress;
             showConnect()
-
         }
 
 let countdown = 5; // Set the initial countdown value (in seconds)
