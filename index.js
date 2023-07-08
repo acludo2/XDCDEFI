@@ -1,9 +1,11 @@
     const selectedAddress = localStorage.getItem('selectedAddress');
         if (selectedAddress) {
+         console.log("Localstorage: " + selectedAddress);
           window.ethereum.enable();
           window.web3.eth.defaultAccount = selectedAddress;
+            accounts[0] = selectedAddress;
             showConnect()
-        console.log("Localstorage: " + selectedAddress);
+
         }
 
 let countdown = 5; // Set the initial countdown value (in seconds)
@@ -252,8 +254,6 @@ async function showConnect() {
 }
 async function connect() {
     accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-    
-
     //window.ethereum.on('accountsChanged', function (accounts) {
           localStorage.setItem('selectedAddress', accounts[0]);
           window.web3.eth.defaultAccount = accounts[0];
