@@ -5,7 +5,7 @@ const updateCountdown = () => {
         countdown = 5; // Reset the countdown
         fetchCryptoData(); // Fetch new data
     }
-    document.getElementById('countdown').innerText = "Refresh in " + countdown.toString() + " seconds";
+    //document.getElementById('countdown').innerText = "Refresh in " + countdown.toString() + " seconds";
 };
 
 const fetchCryptoData = () => {
