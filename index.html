@@ -269,6 +269,19 @@ balance = web3.utils.fromWei(await web3.eth.getBalance(accounts[0]), 'ether');
         // Time to reload your interface with accounts[0]!
         console.log("Account changed: ", accounts[0]);
     });
+		  const changeNetwork = async () => {
+if (window.ethereum) {
+  try {
+    await window.ethereum.request({
+    method: 'wallet_switchEthereumChain',
+      params: [{ chainId: Web3.utils.toHex(51) }],
+    });
+    });
+  } catch (error) {
+    console.error(error);
+  }
+}
+changeNetwork()
 }
 
         async function deposit() {
