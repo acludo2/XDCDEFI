@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>ETH Lending</title>
+    <title>XDC Purrfect</title>
     <script src="https://cdn.jsdelivr.net/npm/web3@1.2.9/dist/web3.min.js"></script>
     <style>
         body {
@@ -38,239 +38,299 @@
         button:active {
             background-color: #0026ca;
         }
+
+        .top-bar {
+            background-color: #f0f0f0;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .top-bar a {
+            text-decoration: none;
+            margin-right: 10px;
+        }
+
+        .balance {
+            font-weight: bold;
+        }
+
+        /* Price ticker styles */
+        .price-ticker {
+            background-color: #f5f5f5;
+            padding: 10px;
+            text-align: center;
+        }
+
+        /* Body styles */
+        .image-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            max-height: 400px;
+        }
     </style>
 </head>
 
 <body>
-    <button id="connectButton">Connect</button>
-    <button id="depositButton">Deposit 1 XDC</button><button id="depositMaxButton" value=1>Deposit Max XDC (max is: )</button>
-    <button id="depositCollateralButton">Deposit 1 XDC as Collateral</button>
-    <div>
-        <input id="loanAmountInput" type="text" placeholder="Enter loan amount" />
-        <button id="createLoanButton">Create Loan</button>
-    </div>
-    <button id="repayLoanButton">Repay Loan</button>
-    <button id="withdrawCollateralButton">Withdraw Collateral</button>
 
+
+    <body>
+        <div class="top-bar">
+            <div>
+                <a href="#">Loan</a>
+                <a href="#">Swap</a>
+                <a href="#">Stake</a>
+                <a href="#">Oracle</a>
+            </div>
+            <div>
+                <span class="balance">Balance: $100</span>
+                <button id="connectButton">Connect</button>
+
+            </div>
+        </div>
+
+        <div class="price-ticker">
+            <h3>Price Ticker</h3>
+            <p>Current Price: $1,000</p>
+        </div>
+
+        <div class="image-container">
+            <button id="depositButton">Deposit 1 XDC</button><button id="depositMaxButton" value=1>Deposit Max XDC (max
+                is: )</button>
+            <button id="depositCollateralButton">Deposit 1 XDC as Collateral</button>
+            <div>
+                <input id="loanAmountInput" type="text" placeholder="Enter loan amount" />
+                <button id="createLoanButton">Create Loan</button>
+            </div>
+            <button id="repayLoanButton">Repay Loan</button>
+            <button id="withdrawCollateralButton">Withdraw Collateral</button>
+            <img src="placeholder-image.jpg" alt="Image">
+        </div>
+    </body>
     <script>
         const web3 = new Web3(window.ethereum);
         const contractABI = [
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "borrower",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "CollateralWithdrawn",
-		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "createLoan",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "deposit",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "depositor",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "Deposit",
-		"type": "event"
-	},
-	{
-		"inputs": [],
-		"name": "depositCollateral",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "borrower",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "LoanCreated",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "borrower",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "LoanRepaid",
-		"type": "event"
-	},
-	{
-		"inputs": [],
-		"name": "repayLoan",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "withdrawCollateral",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "collateral",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "loans",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "isActive",
-				"type": "bool"
-			},
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "collateral",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "LTV_RATIO",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "totalPool",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	}
-]; // Add contract ABI here
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "borrower",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "amount",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "CollateralWithdrawn",
+                "type": "event"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "amount",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "createLoan",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "deposit",
+                "outputs": [],
+                "stateMutability": "payable",
+                "type": "function"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "depositor",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "amount",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "Deposit",
+                "type": "event"
+            },
+            {
+                "inputs": [],
+                "name": "depositCollateral",
+                "outputs": [],
+                "stateMutability": "payable",
+                "type": "function"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "borrower",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "amount",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "LoanCreated",
+                "type": "event"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "borrower",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "amount",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "LoanRepaid",
+                "type": "event"
+            },
+            {
+                "inputs": [],
+                "name": "repayLoan",
+                "outputs": [],
+                "stateMutability": "payable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "amount",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "withdrawCollateral",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "",
+                        "type": "address"
+                    }
+                ],
+                "name": "collateral",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "",
+                        "type": "address"
+                    }
+                ],
+                "name": "loans",
+                "outputs": [
+                    {
+                        "internalType": "bool",
+                        "name": "isActive",
+                        "type": "bool"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "amount",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "collateral",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "LTV_RATIO",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "totalPool",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            }
+        ]; // Add contract ABI here
         const contractAddress = "0x85DB6F29409dA1d2e29f3390C6f7AED95d796E6D"; // Add contract address here
         const contract = new web3.eth.Contract(contractABI, contractAddress);
         let accounts = [];
 
         async function connect() {
-    accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-    console.log("Connected: ", accounts[0]);
-    //let balance = await web3.eth.getBalance(accounts[0]).then(console.log);
-	web3.eth.getChainId().then(console.log);
-		
-balance = web3.utils.fromWei(await web3.eth.getBalance(accounts[0]), 'ether');
-		document.getElementById("depositMaxButton").innerHTML = "Deposit Max XDC (max is:" + balance;
-		console.log("Balance is: ", balance);
-    window.ethereum.on('accountsChanged', function (accounts) {
-        // Time to reload your interface with accounts[0]!
-        console.log("Account changed: ", accounts[0]);
-    });
-	}
+            accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+            console.log("Connected: ", accounts[0]);
+            //let balance = await web3.eth.getBalance(accounts[0]).then(console.log);
+            web3.eth.getChainId().then(console.log);
+
+            balance = web3.utils.fromWei(await web3.eth.getBalance(accounts[0]), 'ether');
+            document.getElementById("depositMaxButton").innerHTML = "Deposit Max XDC (max is:" + balance;
+            console.log("Balance is: ", balance);
+            window.ethereum.on('accountsChanged', function (accounts) {
+                // Time to reload your interface with accounts[0]!
+                console.log("Account changed: ", accounts[0]);
+            });
+        }
         async function deposit() {
             await contract.methods.deposit().send({ from: accounts[0], value: web3.utils.toWei('1', 'ether') });
             console.log("Deposit successful");
@@ -308,6 +368,5 @@ balance = web3.utils.fromWei(await web3.eth.getBalance(accounts[0]), 'ether');
         document.getElementById('repayLoanButton').addEventListener('click', repayLoan);
         document.getElementById('withdrawCollateralButton').addEventListener('click', withdrawCollateral);
     </script>
-</body>
 
 </html>
