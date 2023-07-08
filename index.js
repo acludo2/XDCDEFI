@@ -227,37 +227,38 @@ const contractAddress = "0x85DB6F29409dA1d2e29f3390C6f7AED95d796E6D"; // Add con
 const contract = new web3.eth.Contract(contractABI, contractAddress);
 let accounts = [];
 
+// Restore session from local storage
 const selectedAddress = localStorage.getItem('selectedAddress');
 if (selectedAddress) {
     window.ethereum.enable();
     window.web3.eth.defaultAccount = selectedAddress;
 }
 
-async function connect() {
-    accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-    console.log("Connected: ", accounts[0]);
-
-    window.ethereum.on('accountsChanged', function (accounts) {
-        localStorage.setItem('selectedAddress', accounts[0]);
-        window.web3.eth.defaultAccount = accounts[0];
-    });
-} else {
+// Store session changes to local storage
+window.ethereum.on('accountsChanged', function (accounts) {
+    localStorage.setItem('selectedAddress', accounts[0]);
+    window.web3.eth.defaultAccount = accounts[0];
+});
+      } else {
     console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
 }
 
-//let balance = await web3.eth.getBalance(accounts[0]).then(console.log);
-web3.eth.getChainId().then(console.log);
-document.getElementById("connectButton").innerHTML = accounts[0].substr(0, 2) + "..." + accounts[0].substr(-4);
-document.getElementById("connectButton").style.backgroundColor = '#1e2e9e';
-balance = web3.utils.fromWei(await web3.eth.getBalance(accounts[0]), 'ether');
-//document.getElementById("depositMaxButton").innerHTML = "Deposit Max XDC (max is:" + balance;
-document.getElementById("balance").innerHTML = "Balance: " + parseFloat(balance).toFixed(4) + " XDC";
-console.log("Balance is: ", balance);
-window.ethereum.on('accountsChanged', function (accounts) {
-    // Time to reload your interface with accounts[0]!
-    console.log("Account changed: ", accounts[0]);
-});
-        }
+async function connect() {
+    accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    console.log("Connected: ", accounts[0]);
+    //let balance = await web3.eth.getBalance(accounts[0]).then(console.log);
+    web3.eth.getChainId().then(console.log);
+    document.getElementById("connectButton").innerHTML = accounts[0].substr(0, 2) + "..." + accounts[0].substr(-4);
+    document.getElementById("connectButton").style.backgroundColor = '#1e2e9e';
+    balance = web3.utils.fromWei(await web3.eth.getBalance(accounts[0]), 'ether');
+    //document.getElementById("depositMaxButton").innerHTML = "Deposit Max XDC (max is:" + balance;
+    document.getElementById("balance").innerHTML = "Balance: " + parseFloat(balance).toFixed(4) + " XDC";
+    console.log("Balance is: ", balance);
+    window.ethereum.on('accountsChanged', function (accounts) {
+        // Time to reload your interface with accounts[0]!
+        console.log("Account changed: ", accounts[0]);
+    });
+}
 async function deposit() {
     await contract.methods.deposit().send({ from: accounts[0], value: web3.utils.toWei('1', 'ether') });
     console.log("Deposit successful");
