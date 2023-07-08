@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>XDC Purrfect</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.2.9/dist/web3.min.js"></script>
+  <style>
+    body {
+      background-color: #121212;
+    }
+    .ui.menu, .ui.segment {
+      border-radius: 4px !important;
+      box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1) !important;
+      background-color: #1e1e1e !important;
+      color: #ddd;
+    }
+    .ui.menu .item, .light-text-btn {
+      color: #ddd !important;
+    }
+    .dark-text-btn {
+      color: #000 !important;
+    }
+    .ui.input input {
+      color: #000 !important;
+    }
+  </style>
+
+</head>
+<body>
+  <div class="ui inverted menu">
+    <div class="ui inverted menu">
+      <a class="item" href="index.html">Home</a>
+      <a class="item" href="#swap">Swap</a>
+      <a class="item" href="loan.html">Loans</a>
+      <a class="item" href="pair.html">TVL Pairs</a>
+      <a class="item" href="#oracle">Oracle System</a>
+      <div class="right menu">
+        <button class="ui inverted button" id="connectButton">Connect</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui center aligned segment" id="price-ticker">
+    Current Price:
+  </div>
+  <div class="ui center aligned segment">
+    <span id="countdown">Refresh in 0 seconds</span>
+  </div>
+  <div class="ui center aligned segment">
+    <button class="ui blue button" id="depositButton">Deposit 1 XDC</button>
+    <button class="ui blue button" id="depositMaxButton">Deposit Max XDC (max is: )</button>
+    <button class="ui blue button" id="depositCollateralButton">Deposit 1 XDC as Collateral</button>
+  </div>
+  <div class="ui center aligned segment">
+
+    <div class="ui action input">
+      <input type="text" id="loanAmountInput" placeholder="Enter loan amount">
+      <button class="ui button" id="createLoanButton">Create Loan</button>
+    </div>
+  </div>
+
+  <div class="ui center aligned segment">
+    <button class="ui blue button" id="repayLoanButton">Repay Loan</button>
+    <button class="ui blue button" id="withdrawCollateralButton">Withdraw Collateral</button>
+  </div>
+
+  <div class="ui center aligned segment image-container">
+    <img src="placeholder-image.jpg" alt="Image">
+  </div>
+
+  <!-- Account Profile -->
+  <div class="ui center aligned segment">
+    <h3>Account Profile</h3>
+    <p id="activeLoan">Active Loan: </p>
+    <p id="collateralBalance">Collateral: </p>
+    <p id="loanBalance">Loan Balance: </p>
+    <p id="interestDue">Interest Due: </p>
+  </div>
+
+  <script src="index.js"></script>
+</body>
+</html>

@@ -1,417 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <title>XDC Purrfect</title>
-    <script src="https://cdn.jsdelivr.net/npm/web3@1.2.9/dist/web3.min.js"></script>
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #121212;
-            color: #FFFFFF;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-           
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        button {
-            background-color: #304ffe;
-            color: #FFFFFF;
-            border: none;
-            padding: 10px 20px;
-            margin: 10px;
-            border-radius: 4px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        button:hover {
-            background-color: #536dfe;
-        }
-
-        button:active {
-            background-color: #0026ca;
-        }
-
-            /* Color palette */
-    :root {
-      --primary-color: #19456b;
-      --secondary-color: #58a6e7;
-      --accent-color: #00cc66;
-      --text-color: #ffffff;
+  <title>Your DApp</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.2.9/dist/web3.min.js"></script>
+  <style>
+    body {
+      background-color: #121212;
     }
-
-    /* Top bar styles */
-    .top-bar {
-      background-color: var(--primary-color);
-      
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-        width: 100%;
+    .ui.menu, .ui.segment {
+      border-radius: 4px !important;
+      box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1) !important;
+      background-color: #1e1e1e !important;
+      color: #ddd;
     }
-
-    .top-bar a {
-      text-decoration: none;
-      margin-right: 10px;
-      color: var(--text-color);
+    .ui.menu .item, .light-text-btn {
+      color: #ddd !important;
     }
-
-    .balance {
-      font-weight: bold;
-      color: var(--text-color);
+    .dark-text-btn {
+      color: #000 !important;
     }
-
-    /* Price ticker styles */
-    .price-ticker {
-      background-color: var(--secondary-color);
-      padding: 10px;
-      text-align: center;
-      color: var(--text-color);
+    .ui.input input {
+      color: #000 !important;
     }
+  </style>
 
-    /* Body styles */
-    .image-container {
-      text-align: center;
-      margin-top: 20px;
-    }
-
-    .image-container img {
-      max-width: 100%;
-      max-height: 400px;
-    }
-
-    /* Button styles */
-    .button {
-      background-color: var(--accent-color);
-      color: var(--text-color);
-    }
-    </style>
 </head>
-
 <body>
+  <div class="ui inverted menu">
+    <div class="ui inverted menu">
+      <a class="item" href="index.html">Home</a>
+      <a class="item" href="#swap">Swap</a>
+      <a class="item" href="loan.html">Loans</a>
+      <a class="item" href="pair.html">TVL Pairs</a>
+      <a class="item" href="#oracle">Oracle System</a>
+      <div class="right menu">
+        <button class="ui inverted button" id="connectButton">Connect</button>
+      </div>
+    </div>
+  </div>
 
+  <div class="ui center aligned segment">
+    <h2>Welcome to Your DApp</h2>
+    <p>Your one-stop solution for crypto swapping, loans, TVL pairs, and oracle systems.</p>
+  </div>
 
-    <body>
-        <div class="top-bar">
-            <div>
-                <a href="#">Loan</a>
-                <a href="#">Swap</a>
-                <a href="#">Stake</a>
-                <a href="#">Oracle</a>
-            </div>
-            <div>
-                <span id="balance">Balance: XDC</span>
-                <button id="connectButton">Connect</button>
-            </div>
-        </div>
+  <div id="swap" class="ui center aligned segment">
+    <h3>Swap</h3>
+    <p>Swap your tokens easily and securely with our swap feature.</p>
+  </div>
 
-        <div id="price-ticker">
-            Current Price: 
-        </div>
-        <span id="countdown">Refresh in 0 seconds</span>
-        <div class="image-container">
-            <button id="depositButton">Deposit 1 XDC</button><button id="depositMaxButton" value=1>Deposit Max XDC (max
-                is: )</button>
-            <button id="depositCollateralButton">Deposit 1 XDC as Collateral</button>
-            <div>
-                <input id="loanAmountInput" type="text" placeholder="Enter loan amount" />
-                <button id="createLoanButton">Create Loan</button>
-            </div>
-            <button id="repayLoanButton">Repay Loan</button>
-            <button id="withdrawCollateralButton">Withdraw Collateral</button>
-            <img src="placeholder-image.jpg" alt="Image">
-        </div>
-    </body>
-    <script>
+  <div id="loans" class="ui center aligned segment">
+    <h3>Loans</h3>
+    <p>Borrow crypto assets with competitive rates.</p>
+  </div>
 
-        let countdown = 5; // Set the initial countdown value (in seconds)
-const updateCountdown = () => {
-    countdown--;
-    if (countdown === 0) {
-        countdown = 5; // Reset the countdown
-        fetchCryptoData(); // Fetch new data
-    }
-    document.getElementById('countdown').innerText = "Refresh in " + countdown.toString() + " seconds";
-};
-        
-        const fetchCryptoData = () => {
-    const apiUrl = 'https://bitrue.armsves.workers.dev';
-     fetch(apiUrl, { })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            document.getElementById("price-ticker").innerHTML = "Current Price: " + data.price + " USDT/XDC";
-        })
-        .catch(error => {
-            console.log('Error fetching crypto data:', error);
-        });
- };
-setInterval(updateCountdown, 1000);
-fetchCryptoData();
-        
-        const web3 = new Web3(window.ethereum);
-        const contractABI = [
-            {
-                "anonymous": false,
-                "inputs": [
-                    {
-                        "indexed": true,
-                        "internalType": "address",
-                        "name": "borrower",
-                        "type": "address"
-                    },
-                    {
-                        "indexed": false,
-                        "internalType": "uint256",
-                        "name": "amount",
-                        "type": "uint256"
-                    }
-                ],
-                "name": "CollateralWithdrawn",
-                "type": "event"
-            },
-            {
-                "inputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "amount",
-                        "type": "uint256"
-                    }
-                ],
-                "name": "createLoan",
-                "outputs": [],
-                "stateMutability": "nonpayable",
-                "type": "function"
-            },
-            {
-                "inputs": [],
-                "name": "deposit",
-                "outputs": [],
-                "stateMutability": "payable",
-                "type": "function"
-            },
-            {
-                "anonymous": false,
-                "inputs": [
-                    {
-                        "indexed": true,
-                        "internalType": "address",
-                        "name": "depositor",
-                        "type": "address"
-                    },
-                    {
-                        "indexed": false,
-                        "internalType": "uint256",
-                        "name": "amount",
-                        "type": "uint256"
-                    }
-                ],
-                "name": "Deposit",
-                "type": "event"
-            },
-            {
-                "inputs": [],
-                "name": "depositCollateral",
-                "outputs": [],
-                "stateMutability": "payable",
-                "type": "function"
-            },
-            {
-                "anonymous": false,
-                "inputs": [
-                    {
-                        "indexed": true,
-                        "internalType": "address",
-                        "name": "borrower",
-                        "type": "address"
-                    },
-                    {
-                        "indexed": false,
-                        "internalType": "uint256",
-                        "name": "amount",
-                        "type": "uint256"
-                    }
-                ],
-                "name": "LoanCreated",
-                "type": "event"
-            },
-            {
-                "anonymous": false,
-                "inputs": [
-                    {
-                        "indexed": true,
-                        "internalType": "address",
-                        "name": "borrower",
-                        "type": "address"
-                    },
-                    {
-                        "indexed": false,
-                        "internalType": "uint256",
-                        "name": "amount",
-                        "type": "uint256"
-                    }
-                ],
-                "name": "LoanRepaid",
-                "type": "event"
-            },
-            {
-                "inputs": [],
-                "name": "repayLoan",
-                "outputs": [],
-                "stateMutability": "payable",
-                "type": "function"
-            },
-            {
-                "inputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "amount",
-                        "type": "uint256"
-                    }
-                ],
-                "name": "withdrawCollateral",
-                "outputs": [],
-                "stateMutability": "nonpayable",
-                "type": "function"
-            },
-            {
-                "inputs": [
-                    {
-                        "internalType": "address",
-                        "name": "",
-                        "type": "address"
-                    }
-                ],
-                "name": "collateral",
-                "outputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "",
-                        "type": "uint256"
-                    }
-                ],
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "inputs": [
-                    {
-                        "internalType": "address",
-                        "name": "",
-                        "type": "address"
-                    }
-                ],
-                "name": "loans",
-                "outputs": [
-                    {
-                        "internalType": "bool",
-                        "name": "isActive",
-                        "type": "bool"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "amount",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "collateral",
-                        "type": "uint256"
-                    }
-                ],
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "inputs": [],
-                "name": "LTV_RATIO",
-                "outputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "",
-                        "type": "uint256"
-                    }
-                ],
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "inputs": [],
-                "name": "totalPool",
-                "outputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "",
-                        "type": "uint256"
-                    }
-                ],
-                "stateMutability": "view",
-                "type": "function"
-            }
-        ]; // Add contract ABI here
-        const contractAddress = "0x85DB6F29409dA1d2e29f3390C6f7AED95d796E6D"; // Add contract address here
-        const contract = new web3.eth.Contract(contractABI, contractAddress);
-        let accounts = [];
+  <div id="TVL" class="ui center aligned segment">
+    <h3>TVL Pairs</h3>
+    <p>Create your own TVL pairs and contribute to the liquidity pool.</p>
+  </div>
 
-        async function connect() {
-            accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-            console.log("Connected: ", accounts[0]);
-            //let balance = await web3.eth.getBalance(accounts[0]).then(console.log);
-            web3.eth.getChainId().then(console.log);
-            document.getElementById("connectButton").innerHTML = accounts[0].substr(0, 2) + "..." + accounts[0].substr(-4);
-            document.getElementById("connectButton").style.backgroundColor = '#1e2e9e';
-            balance = web3.utils.fromWei(await web3.eth.getBalance(accounts[0]), 'ether');
-            //document.getElementById("depositMaxButton").innerHTML = "Deposit Max XDC (max is:" + balance;
-            document.getElementById("balance").innerHTML = "Balance: " + parseFloat(balance).toFixed(4) + " XDC";
-            console.log("Balance is: ", balance);
-            window.ethereum.on('accountsChanged', function (accounts) {
-                // Time to reload your interface with accounts[0]!
-                console.log("Account changed: ", accounts[0]);
-            });
-        }
-        async function deposit() {
-            await contract.methods.deposit().send({ from: accounts[0], value: web3.utils.toWei('1', 'ether') });
-            console.log("Deposit successful");
-        }
+  <div id="oracle" class="ui center aligned segment">
+    <h3>Oracle System</h3>
+    <p>Stay up-to-date with real-time price data using our built-in oracle system.</p>
+  </div>
 
-        async function depositCollateral() {
-            await contract.methods.depositCollateral().send({ from: accounts[0], value: web3.utils.toWei('1', 'ether') });
-            console.log("Collateral deposit successful");
-        }
-
-        async function createLoan() {
-            const loanAmount = document.getElementById('loanAmountInput').value;
-            await contract.methods.createLoan(web3.utils.toWei(loanAmount, 'ether')).send({ from: accounts[0] });
-            console.log("Loan created");
-        }
-
-
-        async function repayLoan() {
-            const { isActive, amount } = await contract.methods.getLoanDetails(accounts[0]).call();
-            if (!isActive) return console.log("No active loan found");
-            await contract.methods.repayLoan().send({ from: accounts[0], value: amount });
-            console.log("Loan repaid");
-        }
-
-        async function withdrawCollateral() {
-            const collateralBalance = await contract.methods.getCollateralBalance(accounts[0]).call();
-            await contract.methods.withdrawCollateral(collateralBalance).send({ from: accounts[0] });
-            console.log("Collateral withdrawn");
-        }
-
-        document.getElementById('connectButton').addEventListener('click', connect);
-        document.getElementById('depositButton').addEventListener('click', deposit);
-        document.getElementById('depositCollateralButton').addEventListener('click', depositCollateral);
-        document.getElementById('createLoanButton').addEventListener('click', createLoan);
-        document.getElementById('repayLoanButton').addEventListener('click', repayLoan);
-        document.getElementById('withdrawCollateralButton').addEventListener('click', withdrawCollateral);
-    </script>
-
+  <script src="index.js"></script>
+</body>
 </html>
