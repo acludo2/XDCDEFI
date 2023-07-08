@@ -2,6 +2,7 @@
         if (selectedAddress) {
           window.ethereum.enable();
           window.web3.eth.defaultAccount = selectedAddress;
+            showConnect()
         console.log("Localstorage: " + selectedAddress);
         }
 
@@ -234,15 +235,7 @@ const contractAddress = "0x85DB6F29409dA1d2e29f3390C6f7AED95d796E6D"; // Add con
 const contract = new web3.eth.Contract(contractABI, contractAddress);
 let accounts = [];
 
-async function connect() {
-    accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-    
-
-    //window.ethereum.on('accountsChanged', function (accounts) {
-          localStorage.setItem('selectedAddress', accounts[0]);
-          window.web3.eth.defaultAccount = accounts[0];
-     //   });
-    
+async function showConnect() {
     console.log("Connected: ", accounts[0]);
     //let balance = await web3.eth.getBalance(accounts[0]).then(console.log);
     web3.eth.getChainId().then(console.log);
@@ -256,6 +249,16 @@ async function connect() {
         // Time to reload your interface with accounts[0]!
         console.log("Account changed: ", accounts[0]);
     });
+}
+async function connect() {
+    accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    
+
+    //window.ethereum.on('accountsChanged', function (accounts) {
+          localStorage.setItem('selectedAddress', accounts[0]);
+          window.web3.eth.defaultAccount = accounts[0];
+     //   });
+    showConnect()
 }
 async function deposit() {
     await contract.methods.deposit().send({ from: accounts[0], value: web3.utils.toWei('1', 'ether') });
