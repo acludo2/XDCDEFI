@@ -9,7 +9,7 @@
       background-color: #121212;
       font-family: 'Lato','Helvetica Neue','Arial',Helvetica,sans-serif;
     }
-    .ui.menu, .ui.segment {
+    .ui.menu, .ui.segment, .ui.table {
       border-radius: 4px !important;
       box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1) !important;
       background-color: #1e1e1e !important;
@@ -53,7 +53,7 @@
     <div class="ui center aligned segment">
       <h3>Create Oracle</h3>
       <div class="ui input">
-        <input type="text" id="oracleName" placeholder="Enter oracle name">
+        <input type="text" id="oracleNameInput" placeholder="Enter oracle name">
       </div>
       <button class="ui blue button" id="createOracleButton">Create Oracle</button>
     </div>
@@ -67,6 +67,18 @@
         <input type="number" id="oraclePrice" placeholder="Enter price">
       </div>
       <button class="ui blue button" id="updatePriceButton">Update Price</button>
+    </div>
+
+    <div class="ui center aligned segment">
+      <h3>List of Oracles</h3>
+      <table class="ui celled table" id="oraclesTable">
+        <thead>
+          <tr><th>Oracle Name</th><th>Oracle Address</th><th>Price</th></tr>
+        </thead>
+        <tbody id="oraclesContainer">
+          <!-- Oracles will be listed here -->
+        </tbody>
+      </table>
     </div>
   </div>
 
