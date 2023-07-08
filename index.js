@@ -14,7 +14,10 @@ const fetchCryptoData = () => {
         .then(response => response.json())
         .then(data => {
             console.log(data);
-            document.getElementById("price-ticker").innerHTML = "Current Price: " + data.price + " USDT/XDC";
+            price-ticker = document.getElementById("price-ticker");
+            if (price-ticker) {
+                document.getElementById("price-ticker").innerHTML = "Current Price: " + data.price + " USDT/XDC";
+            }
         })
         .catch(error => {
             console.log('Error fetching crypto data:', error);
