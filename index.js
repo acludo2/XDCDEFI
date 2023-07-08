@@ -250,11 +250,19 @@ async function showConnect() {
         console.log("Account changed: ", accounts[0]);
     });
 }
+
+    window.ethereum.on('accountsChanged', function (accounts) {
+          localStorage.setItem('selectedAddress', accounts[0]);
+          window.web3.eth.defaultAccount = accounts[0];
+ showConnect()
+       });
+   
+
 async function connect() {
     accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
     //window.ethereum.on('accountsChanged', function (accounts) {
           localStorage.setItem('selectedAddress', accounts[0]);
-          window.web3.eth.defaultAccount = accounts[0];
+          //window.web3.eth.defaultAccount = accounts[0];
      //   });
     showConnect()
 }
