@@ -234,7 +234,7 @@ async function connect() {
         if (selectedAddress) {
           window.ethereum.enable();
           window.web3.eth.defaultAccount = selectedAddress;
-            
+        console.log("Localstorage: " + selectedAddress);
         }
     //window.ethereum.on('accountsChanged', function (accounts) {
           localStorage.setItem('selectedAddress', accounts[0]);
