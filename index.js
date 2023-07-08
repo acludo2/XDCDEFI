@@ -2,7 +2,7 @@
         if (selectedAddress) {
          console.log("Localstorage: " + selectedAddress);
           //window.ethereum.enable();
-          //window.web3.eth.defaultAccount = selectedAddress;
+          window.web3.eth.defaultAccount = selectedAddress;
             showConnect()
         }
 
