@@ -43,7 +43,7 @@
 
 <body>
     <button id="connectButton">Connect</button>
-    <button id="depositButton">Deposit 1 XDC</button>
+    <button id="depositButton">Deposit 1 XDC</button><button id="depositMaxButton" value=1>Deposit Max XDC (max is: )</button>
     <button id="depositCollateralButton">Deposit 1 XDC as Collateral</button>
     <div>
         <input id="loanAmountInput" type="text" placeholder="Enter loan amount" />
@@ -264,6 +264,7 @@
 	web3.eth.getChainId().then(console.log);
 		
 balance = web3.utils.fromWei(await web3.eth.getBalance(accounts[0]), 'ether');
+		document.getElementById("depositMaxButton").innerHTML = "Deposit Max XDC (max is:" + balance;
 		console.log("Balance is: ", balance);
     window.ethereum.on('accountsChanged', function (accounts) {
         // Time to reload your interface with accounts[0]!
