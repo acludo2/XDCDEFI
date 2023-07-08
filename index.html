@@ -89,7 +89,7 @@
                 <a href="#">Oracle</a>
             </div>
             <div>
-                <span id="balance">Balance: $100</span>
+                <span id="balance">Balance: XDC</span>
                 <button id="connectButton">Connect</button>
 
             </div>
@@ -326,7 +326,7 @@
 
             balance = web3.utils.fromWei(await web3.eth.getBalance(accounts[0]), 'ether');
             document.getElementById("depositMaxButton").innerHTML = "Deposit Max XDC (max is:" + balance;
-            document.getElementById("balance").innerHTML = balance;
+            document.getElementById("balance").innerHTML = "Balance: " + balance + " XDC";
             console.log("Balance is: ", balance);
             window.ethereum.on('accountsChanged', function (accounts) {
                 // Time to reload your interface with accounts[0]!
