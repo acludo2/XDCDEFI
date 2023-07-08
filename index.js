@@ -236,14 +236,18 @@ async function showConnect() {
     web3.eth.getChainId().then(console.log);
     document.getElementById("connectButton").innerHTML = accounts[0].substr(0, 2) + "..." + accounts[0].substr(-4);
     document.getElementById("connectButton").style.backgroundColor = '#1e2e9e';
-    balance = web3.utils.fromWei(await web3.eth.getBalance(accounts[0]), 'ether');
-    //document.getElementById("depositMaxButton").innerHTML = "Deposit Max XDC (max is:" + balance;
-    document.getElementById("balance").innerHTML = "Balance: " + parseFloat(balance).toFixed(4) + " XDC";
-    console.log("Balance is: ", balance);
+    updateBalance()
     window.ethereum.on('accountsChanged', function (accounts) {
         // Time to reload your interface with accounts[0]!
         console.log("Account changed: ", accounts[0]);
     });
+}
+
+async function updateBalance() {
+    balance = web3.utils.fromWei(await web3.eth.getBalance(accounts[0]), 'ether');
+    //document.getElementById("depositMaxButton").innerHTML = "Deposit Max XDC (max is:" + balance;
+    document.getElementById("balance").innerHTML = "Balance: " + parseFloat(balance).toFixed(4) + " XDC";
+    console.log("Balance is: ", balance);
 }
 
 async function connect() {
@@ -252,31 +256,35 @@ async function connect() {
 }
 async function deposit() {
     await contract.methods.deposit().send({ from: accounts[0], value: web3.utils.toWei('1', 'ether') });
+    updateBalance()
     console.log("Deposit successful");
 }
 
 async function depositCollateral() {
     await contract.methods.depositCollateral().send({ from: accounts[0], value: web3.utils.toWei('1', 'ether') });
+    updateBalance()
     console.log("Collateral deposit successful");
 }
 
 async function createLoan() {
     const loanAmount = document.getElementById('loanAmountInput').value;
     await contract.methods.createLoan(web3.utils.toWei(loanAmount, 'ether')).send({ from: accounts[0] });
+    updateBalance()
     console.log("Loan created");
 }
-
 
 async function repayLoan() {
     const { isActive, amount } = await contract.methods.getLoanDetails(accounts[0]).call();
     if (!isActive) return console.log("No active loan found");
     await contract.methods.repayLoan().send({ from: accounts[0], value: amount });
+    updateBalance()
     console.log("Loan repaid");
 }
 
 async function withdrawCollateral() {
     const collateralBalance = await contract.methods.getCollateralBalance(accounts[0]).call();
     await contract.methods.withdrawCollateral(collateralBalance).send({ from: accounts[0] });
+    updateBalance()
     console.log("Collateral withdrawn");
 }
 
