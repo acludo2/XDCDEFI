@@ -238,7 +238,7 @@ async function connect() {
         }
     //window.ethereum.on('accountsChanged', function (accounts) {
           localStorage.setItem('selectedAddress', accounts[0]);
-     //     window.web3.eth.defaultAccount = accounts[0];
+          window.web3.eth.defaultAccount = accounts[0];
      //   });
     
     console.log("Connected: ", accounts[0]);
