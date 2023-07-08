@@ -234,11 +234,12 @@ async function connect() {
         if (selectedAddress) {
           window.ethereum.enable();
           window.web3.eth.defaultAccount = selectedAddress;
+            
         }
-    window.ethereum.on('accountsChanged', function (accounts) {
+    //window.ethereum.on('accountsChanged', function (accounts) {
           localStorage.setItem('selectedAddress', accounts[0]);
-          window.web3.eth.defaultAccount = accounts[0];
-        });
+     //     window.web3.eth.defaultAccount = accounts[0];
+     //   });
     
     console.log("Connected: ", accounts[0]);
     //let balance = await web3.eth.getBalance(accounts[0]).then(console.log);
