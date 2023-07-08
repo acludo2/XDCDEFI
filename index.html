@@ -367,7 +367,7 @@ fetchCryptoData();
             web3.eth.getChainId().then(console.log);
             document.getElementById("connectButton").innerHTML = accounts[0].substr(0, 2) + "..." + accounts[0].substr(-4);
             document.getElementById("connectButton").style.backgroundColor = '#1e2e9e';
-            balance = web3.utils.fromWei(await web3.eth.getBalance(accounts[0]), 'ether');
+            balance = web3.utils.fromWei(await web3.eth.getBalance(accounts[0]).toFixed(4), 'ether');
             //document.getElementById("depositMaxButton").innerHTML = "Deposit Max XDC (max is:" + balance;
             document.getElementById("balance").innerHTML = "Balance: " + balance + " XDC";
             console.log("Balance is: ", balance);
