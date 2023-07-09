@@ -301,7 +301,7 @@ const contractABI = [
 		"type": "function"
 	}
 ]; // Add contract ABI here
-        const contractAddress = "0xED34739Cb105a93eAb502759a2963aAB720C3B60"; // Add contract address here
+        const contractAddress = "0x5c3B43EBc9358072B3227B56866449DD618ad7Ef"; // Add contract address here
         const contract = new web3.eth.Contract(contractABI, contractAddress);
         let accounts = [];
 
