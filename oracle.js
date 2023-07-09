@@ -100,7 +100,7 @@ const oracleFactoryABI = [
 	}
 ];
 
-const oracleABI = [
+const oracleABI =[
 	{
 		"inputs": [
 			{
@@ -113,11 +113,24 @@ const oracleABI = [
 		"type": "constructor"
 	},
 	{
+		"anonymous": false,
 		"inputs": [
 			{
-				"internalType": "int256",
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "newPrice",
+				"type": "uint256"
+			}
+		],
+		"name": "PriceUpdated",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
 				"name": "_price",
-				"type": "int256"
+				"type": "uint256"
 			}
 		],
 		"name": "fulfillRequest",
@@ -156,9 +169,9 @@ const oracleABI = [
 		"name": "price",
 		"outputs": [
 			{
-				"internalType": "int256",
+				"internalType": "uint256",
 				"name": "",
-				"type": "int256"
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -167,7 +180,7 @@ const oracleABI = [
 ];
 
 // Replace with your contract addresses
-const oracleFactoryAddress = "0xd6887f70d46a7253dAE1247C1eA38f0bD9DFEcda";
+const oracleFactoryAddress = "0xAea37ccf16398636ce1bbd6B8b69B6070B293251";
 
 // Contract instances
 const oracleFactoryContract = new web3.eth.Contract(oracleFactoryABI, oracleFactoryAddress);
@@ -192,21 +205,21 @@ async function createOracle() {
 
 async function fulfillRequest(contract,price) {
     console.log("")
-    let amountInWei = web3.utils.toWei(price, 'ether');
-    //await contract.methods.fulfillRequest(amountInWei).send({ from: accounts[0] });
-    await contract.methods.fulfillRequest(price).send({ from: accounts[0] });
+	let valueInWei = web3.utils.toWei(price, 'ether');
+	await contract.methods.fulfillRequest(valueInWei).send({ from: accounts[0], gas: '300000' });
     console.log("Oracle request fulfilled");
+
 }
 
-const fetchOracleData = (pair,contract) => {
+const fetchOracleData = (pair) => {
     const apiUrl = 'https://openapi.bitrue.com/api/v1/ticker/price?symbol='+pair+'USDT';
-    fetch(apiUrl, {})
+    return fetch(apiUrl, {})
         .then(response => response.json())
         .then(data => {
             console.log(data);
 	    console.log(data.price);
 	    document.getElementById(pair).innerHTML = data.price;
-         	fulfillRequest(contract,data.price)
+         	//fulfillRequest(contract,data.price)
 	    return (data.price);
         })
         .catch(error => {
@@ -226,6 +239,7 @@ async function listOracles() {
         let oraclePrice = await oracleContract.methods.price().call();
         let oracleName = await oracleContract.methods.name().call();
 
+		console.log("oracle",oracleAddresses[i])
         let newOracleRow = document.createElement('tr');
 
         let newOracleNameData = document.createElement('td');
@@ -254,8 +268,8 @@ async function listOracles() {
 
         // Attach the event listener to the button
         button.addEventListener('click', async function() {
-            let price = await fetchOracleData(oracleName, oracleContract);
-            console.log("Fetched price: ", price);
+            let price = await fetchOracleData(oracleName);
+            console.log("Fetched price: ", price,oracleContract);
             // Call fulfillRequest function with the fetched price
             fulfillRequest(oracleContract, price);
         });
