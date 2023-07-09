@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,6 +8,20 @@
     body {
       background-color: #121212;
       font-family: 'Lato','Helvetica Neue','Arial',Helvetica,sans-serif;
+      height: 100vh;
+      margin: 0;
+      box-sizing: border-box;
+    }
+    .main-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      width: 100%;
+      padding-top: 50px;
+    }
+    .content-section {
+      width: 80%;
     }
     .ui.menu, .ui.segment {
       border-radius: 4px !important;
@@ -42,6 +55,9 @@
     .ui.button:hover {
       background: #3342a0;
     }
+    .liquidity-image {
+      width: 150px; /* You can adjust the size here */
+    }
   </style>
 </head>
 <body>
@@ -56,23 +72,26 @@
     </div>
   </div>
 
-  <div class="ui center aligned segment">
-    <h3>Add liquidity Pair</h3>
-    <div class="ui fluid selection dropdown" id="fromTokenDropdown">
-      <input type="hidden" name="fromToken">
-      <i class="dropdown icon"></i>
-      <div class="default text">Select token A</div>
-      <div class="menu"></div>
+  <div class="main-content">
+    <div class="ui center aligned segment content-section">
+      <img class="liquidity-image" src="./assets/pool.png"/>
+      <h3>Add liquidity Pair</h3>
+      <div class="ui fluid selection dropdown" id="fromTokenDropdown">
+        <input type="hidden" name="fromToken">
+        <i class="dropdown icon"></i>
+        <div class="default text">Select token A</div>
+        <div class="menu"></div>
+      </div>
+      <div class="ui divider"></div>
+      <div class="ui fluid selection dropdown" id="toTokenDropdown">
+        <input type="hidden" name="toToken">
+        <i class="dropdown icon"></i>
+        <div class="default text">Select token B</div>
+        <div class="menu"></div>
+      </div>
+      <div class="ui divider"></div>
+      <button class="ui blue button" id="createPairButton">Add liquidity</button>
     </div>
-    <div class="ui divider"></div>
-    <div class="ui fluid selection dropdown" id="toTokenDropdown">
-      <input type="hidden" name="toToken">
-      <i class="dropdown icon"></i>
-      <div class="default text">Select token B</div>
-      <div class="menu"></div>
-    </div>
-    <div class="ui divider"></div>
-    <button class="ui blue button" id="createPairButton">Add liquidity</button>
   </div>
 
   <script src="pair.js"></script>
