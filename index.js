@@ -388,3 +388,16 @@ async function depositCollateral() {
         document.getElementById('createLoanButton').addEventListener('click', createLoan);
         document.getElementById('repayLoanButton').addEventListener('click', repayLoan);
         document.getElementById('withdrawCollateralButton').addEventListener('click', withdrawCollateral);
+
+
+		window.onload = function () {
+			var lines = document.querySelectorAll('.typewriter-text');
+			var delay = 0;
+
+			lines.forEach(function (line) {
+				setTimeout(function () {
+					line.style.animation = 'typing 3.5s steps(40, end), blink-caret .75s step-end infinite';
+				}, delay);
+				delay += 3500; // This delay should match the duration of your typing animation
+			});
+		}

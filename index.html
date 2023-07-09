@@ -6,14 +6,32 @@
   <script src="https://cdn.jsdelivr.net/npm/web3@1.2.9/dist/web3.min.js"></script>
   <style>
     body {
-      background-color: #121212;
+      background-image: url('./assets/pigfinance.png'); /* Replace with your image file path */
+      background-repeat: no-repeat;
+      background-position: right;
+      background-size: small; /* This makes sure the image covers the whole page */
+      background-color: #121212; /* This color will be visible while the image is loading or if the image fails to load */
       font-family: 'Lato','Helvetica Neue','Arial',Helvetica,sans-serif;
     }
-    .ui.menu, .ui.segment {
+    .ui.menu {
       border-radius: 4px !important;
       box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1) !important;
-      background-color: #1e1e1e !important;
+      background-color: rgba(30, 30, 30, 0.8) !important; /* reduced opacity */
       color: #ddd;
+    }
+    .ui.segment {
+      border-radius: 4px !important;
+      box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1) !important;
+      background-color: rgba(30, 30, 30, 0.8) !important; /* reduced opacity */
+      color: #ddd;
+      max-width: 900px; /* Setting max width */
+      margin: auto; /* Center the segments */
+      padding: 50px 0;
+      transition: 0.5s;
+      opacity: 0;
+    }
+    .ui.segment.active {
+      opacity: 1;
     }
     .ui.menu .item, .light-text-btn {
       color: #ddd !important;
@@ -32,11 +50,7 @@
     .ui.button:hover {
       background: #3342a0;
     }
-    .ui.container {
-      margin-top: 40px;
-    }
   </style>
-
 </head>
 <body>
   <div class="ui inverted menu">
@@ -50,31 +64,49 @@
     </div>
   </div>
 
-  <div class="ui center aligned segment">
+  <div id="section1" class="ui center aligned segment active">
     <h2>Welcome to Your DApp</h2>
     <p>Your one-stop solution for crypto swapping, loans, TVL pairs, and oracle systems.</p>
   </div>
 
-  <div id="swap" class="ui center aligned segment">
+  <div id="section2" class="ui center aligned segment">
     <h3>Swap</h3>
     <p>Swap your tokens easily and securely with our swap feature.</p>
   </div>
 
-  <div id="loans" class="ui center aligned segment">
+  <div id="section3" class="ui center aligned segment">
     <h3>Loans</h3>
     <p>Borrow crypto assets with competitive rates.</p>
   </div>
 
-  <div id="TVL" class="ui center aligned segment">
+  <div id="section4" class="ui center aligned segment">
     <h3>TVL Pairs</h3>
     <p>Create your own TVL pairs and contribute to the liquidity pool.</p>
   </div>
 
-  <div id="oracle" class="ui center aligned segment">
+  <div id="section5" class="ui center aligned segment">
     <h3>Oracle System</h3>
     <p>Stay up-to-date with real-time price data using our built-in oracle system.</p>
   </div>
 
   <script src="index.js"></script>
+  <script>
+    let sections = Array.from(document.querySelectorAll(".ui.segment"));
+
+    let observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        const id = entry.target.getAttribute("id");
+        if (entry.intersectionRatio > 0) {
+          document.querySelector(`#${id}`).classList.add("active");
+        } else {
+          document.querySelector(`#${id}`).classList.remove("active");
+        }
+      });
+    });
+
+    sections.forEach(section => {
+      observer.observe(document.querySelector(`#${section.id}`));
+    });
+  </script>
 </body>
 </html>
