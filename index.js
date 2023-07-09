@@ -301,7 +301,7 @@ const contractABI = [
 		"type": "function"
 	}
 ]; // Add contract ABI here
-        const contractAddress = "0x5c3B43EBc9358072B3227B56866449DD618ad7Ef"; // Add contract address here
+        const contractAddress = "0xbf3e05219bbbAbfA20683E5f47E79ccd2CF7e80F"; // Add contract address here
         const contract = new web3.eth.Contract(contractABI, contractAddress);
         let accounts = [];
 
@@ -364,6 +364,7 @@ async function depositCollateral() {
 
         async function withdrawCollateral() {
             const collateralBalance = await contract.methods.collateral(accounts[0]).call();
+			console.log("collateralBalance",collateralBalance)
             await contract.methods.withdrawCollateral(collateralBalance).send({ from: accounts[0] });
             console.log("Collateral withdrawn");
         }
