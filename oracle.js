@@ -251,7 +251,7 @@ async function listOracles() {
         newOracleRow.appendChild(newOracleAddressData);
 
         let newOraclePriceData = document.createElement('td');
-        newOraclePriceData.textContent = oraclePrice;
+        newOraclePriceData.textContent = web3.utils.fromWei(oraclePrice, 'ether');
         newOracleRow.appendChild(newOraclePriceData);
 
         let newOracleLivePriceData = document.createElement('td');
