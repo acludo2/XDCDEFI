@@ -244,7 +244,14 @@ async function listOracles() {
 	setInterval(() => { fetchOracleData(oracleName); }, 5000);
         newOracleRow.appendChild(newOracleLivePriceData);    
         document.getElementById('oraclesContainer').appendChild(newOracleRow);
-    }
+
+	let newUpdateButton = document.createElement('td');
+	let button = document.createElement('button');
+	button.className = 'ui blue button';
+	button.id = 'updatePriceButton';
+	button.innerText = 'Update Price';
+	newOracleRow.appendChild(newUpdateButton);   
+   }
 }
 
 window.addEventListener('load', listOracles);
