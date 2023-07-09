@@ -193,7 +193,8 @@ async function createOracle() {
 async function fulfillRequest(contract,price) {
     console.log("")
     let amountInWei = web3.utils.toWei(price, 'ether');
-    await contract.methods.fulfillRequest(amountInWei).send({ from: accounts[0] });
+    //await contract.methods.fulfillRequest(amountInWei).send({ from: accounts[0] });
+    await contract.methods.fulfillRequest(price).send({ from: accounts[0] });
     console.log("Oracle request fulfilled");
 }
 
