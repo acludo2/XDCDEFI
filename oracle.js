@@ -223,13 +223,27 @@ async function listOracles() {
         newOraclePriceData.textContent = oraclePrice; // Replace this with your oracle price
         newOracleRow.appendChild(newOraclePriceData);
 
+	let newOracleLivePriceData = document.createElement('td');
+        newOracleLivePriceData.textContent = fetchOracleData(oracleName); // Replace this with your oracle live price
+        newOracleRow.appendChild(newOracleLivePriceData);    
         document.getElementById('oraclesContainer').appendChild(newOracleRow);
-
     }
 }
 
-window.addEventListener('load', listOracles);
+const fetchOracleData = (pair) => {
+    const apiUrl = 'https://openapi.bitrue.com/api/v1/ticker/price?symbol='+pair+'USDT';
+    fetch(apiUrl, {})
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+	    return (data.price);
+        })
+        .catch(error => {
+            console.log('Error fetching oracle data:', error);
+        });
+};
 
+window.addEventListener('load', listOracles);
 
 // Event listeners
 document.getElementById('connectButton').addEventListener('click', connect);
