@@ -191,7 +191,7 @@ async function createOracle() {
 }
 
 async function fulfillRequest() {
-    const oraclePrice = document.getElementById('oraclePriceInput').value;
+    const oraclePrice = document.getElementById('oraclePrice').value;
     await oracleContract.methods.fulfillRequest(oraclePrice).send({ from: accounts[0] });
     console.log("Oracle request fulfilled");
 }
