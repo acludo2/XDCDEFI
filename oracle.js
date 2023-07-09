@@ -260,3 +260,4 @@ window.addEventListener('load', listOracles);
 // Event listeners
 document.getElementById('connectButton').addEventListener('click', connect);
 document.getElementById('createOracleButton').addEventListener('click', createOracle);
+document.getElementById('updatePriceButton').addEventListener('click', fulfillRequest);
