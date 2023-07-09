@@ -196,6 +196,21 @@ async function fulfillRequest() {
     console.log("Oracle request fulfilled");
 }
 
+const fetchOracleData = (pair) => {
+    const apiUrl = 'https://openapi.bitrue.com/api/v1/ticker/price?symbol='+pair+'USDT';
+    fetch(apiUrl, {})
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+	    console.log(data.price);
+	    document.getElementById(pair).innerHTML = data.price;	
+	    return (data.price);
+        })
+        .catch(error => {
+            console.log('Error fetching oracle data:', error);
+        });
+};
+
 async function listOracles() {
     const oracleAddresses = await oracleFactoryContract.methods.getAllOracles().call();
     console.log('Oracle addresses: ', oracleAddresses);
@@ -207,7 +222,6 @@ async function listOracles() {
         let oracleContract = new web3.eth.Contract(oracleABI, oracleAddresses[i]);
         let oraclePrice = await oracleContract.methods.price().call();
         let oracleName = await oracleContract.methods.name().call();
-
 
         let newOracleRow = document.createElement('tr');
 
@@ -224,25 +238,12 @@ async function listOracles() {
         newOracleRow.appendChild(newOraclePriceData);
 
 	let newOracleLivePriceData = document.createElement('td');
+	newOracleLivePriceData.setAttribute("id", oracleName);
         newOracleLivePriceData.textContent = fetchOracleData(oracleName); // Replace this with your oracle live price
         newOracleRow.appendChild(newOracleLivePriceData);    
         document.getElementById('oraclesContainer').appendChild(newOracleRow);
     }
 }
-
-const fetchOracleData = (pair) => {
-    const apiUrl = 'https://openapi.bitrue.com/api/v1/ticker/price?symbol='+pair+'USDT';
-    fetch(apiUrl, {})
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-	    console.log(data.price);
-	    return (data.price);
-        })
-        .catch(error => {
-            console.log('Error fetching oracle data:', error);
-        });
-};
 
 window.addEventListener('load', listOracles);
 
