@@ -239,7 +239,9 @@ async function listOracles() {
 
 	let newOracleLivePriceData = document.createElement('td');
 	newOracleLivePriceData.setAttribute("id", oracleName);
-        newOracleLivePriceData.textContent = fetchOracleData(oracleName); // Replace this with your oracle live price
+        //newOracleLivePriceData.textContent = fetchOracleData(oracleName); // Replace this with your oracle live price
+	fetchOracleData(oracleName);
+	setInterval(fetchOracleData(oracleName), 5000);
         newOracleRow.appendChild(newOracleLivePriceData);    
         document.getElementById('oraclesContainer').appendChild(newOracleRow);
     }
