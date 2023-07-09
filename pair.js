@@ -175,24 +175,41 @@ const oracleFactoryContract = new web3.eth.Contract(oracleFactoryABI, oracleFact
 let accounts = [];
 
 
+window.onload = function() {
+  fetch('tokens.json')
+    .then(response => response.json())
+    .then(tokens => {
+      const fromTokenDropdown = document.querySelector('#fromTokenDropdown .menu');
+      const toTokenDropdown = document.querySelector('#toTokenDropdown .menu');
 
-// Populate the dropdowns with tokens from allOracles
-async function populateDropdowns() {
-  const allOracles = await oracleFactoryContract.methods.getAllOracles().call();
-  const fromTokenDropdown = document.getElementById('fromTokenDropdown');
-  const toTokenDropdown = document.getElementById('toTokenDropdown');
+      tokens.forEach(token => {
+        const optionA = document.createElement('div');
+        optionA.className = 'item';
+        optionA.dataset.value = token.tokenAddress;
+        optionA.dataset.oracleAddress = token.oracleAddress;
+        optionA.textContent = token.symbol;
 
-  allOracles.forEach((oracle) => {
-      const fromOption = document.createElement('option');
-      fromOption.value = oracle;
-      fromOption.text = oracle;
-      console.log("oracle",oracle)
+        const optionB = optionA.cloneNode(true);
 
-      const toOption = document.createElement('option');
-      toOption.value = oracle;
-      toOption.text = oracle;
+        fromTokenDropdown.appendChild(optionA);
+        toTokenDropdown.appendChild(optionB);
+      });
+
+      // Initialize dropdowns with Semantic UI
+      $('.ui.dropdown').dropdown();
+    })
+    .catch(error => console.error(error));
+
+  document.getElementById("createPairButton").addEventListener("click", function() {
+    const fromTokenAddress = $('#fromTokenDropdown').dropdown('get value');
+    const toTokenAddress = $('#toTokenDropdown').dropdown('get value');
+
+    const fromOracleAddress = $('#fromTokenDropdown').dropdown('get item').data('oracle-address');
+    const toOracleAddress = $('#toTokenDropdown').dropdown('get item').data('oracle-address');
+
+    // Now you have your selected token addresses and their corresponding oracle addresses
+    // You can use these to interact with your smart contracts
+    console.log(fromTokenAddress, toTokenAddress, fromOracleAddress, toOracleAddress);
   });
-}
+};
 
-// Call the function when the page loads
-window.onload = populateDropdowns;
