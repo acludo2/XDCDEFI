@@ -224,7 +224,7 @@ async function listOracles() {
         newOracleRow.appendChild(newOraclePriceData);
 
 	let newOracleLivePriceData = document.createElement('td');
-        newOracleLivePriceData.textContent = fetchOracleData(oracleName); // Replace this with your oracle live price
+        newOracleLivePriceData.textContent = await fetchOracleData(oracleName); // Replace this with your oracle live price
         newOracleRow.appendChild(newOracleLivePriceData);    
         document.getElementById('oraclesContainer').appendChild(newOracleRow);
     }
