@@ -250,6 +250,7 @@ async function listOracles() {
 	button.className = 'ui blue button';
 	button.id = 'updatePriceButton';
 	button.innerText = 'Update Price';
+	newUpdateButton.appendChild(button);
 	newOracleRow.appendChild(newUpdateButton);   
    }
 }
