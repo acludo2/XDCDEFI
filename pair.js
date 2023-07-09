@@ -1,16 +1,198 @@
-// This is just a template, you would need to add logic for handling button click and input retrieval
-// You will also need to add web3 initialization and contract initialization code
+const web3 = new Web3(window.ethereum);
 
-document.getElementById('createPairButton').addEventListener('click', () => {
-    const tokenA = document.getElementById('tokenA').value;
-    const tokenB = document.getElementById('tokenB').value;
-  
-    myContract.methods.createPair(tokenA, tokenB).send({ from: accounts[0] })
-      .on('receipt', function(receipt){
-        console.log(receipt);
-      })
-      .on('error', function(error, receipt) {
-        console.log(error);
-      });
+// Contract ABI and address
+const oracleFactoryABI = [
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "oracleAddress",
+				"type": "address"
+			}
+		],
+		"name": "OracleCreated",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "allOracles",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_name",
+				"type": "string"
+			}
+		],
+		"name": "createOracle",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "oracleAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "int256",
+				"name": "data",
+				"type": "int256"
+			}
+		],
+		"name": "fulfillOracleRequest",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getAllOracles",
+		"outputs": [
+			{
+				"internalType": "address[]",
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "getOracle",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
+
+const oracleABI = [
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_name",
+				"type": "string"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "_price",
+				"type": "int256"
+			}
+		],
+		"name": "fulfillRequest",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "name",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "owner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "price",
+		"outputs": [
+			{
+				"internalType": "int256",
+				"name": "",
+				"type": "int256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
+
+// Replace with your contract addresses
+const oracleFactoryAddress = "0xd6887f70d46a7253dAE1247C1eA38f0bD9DFEcda";
+
+// Contract instances
+const oracleFactoryContract = new web3.eth.Contract(oracleFactoryABI, oracleFactoryAddress);
+
+// Accounts array
+let accounts = [];
+
+
+
+// Populate the dropdowns with tokens from allOracles
+async function populateDropdowns() {
+  const allOracles = await oracleFactoryContract.methods.getAllOracles().call();
+  const fromTokenDropdown = document.getElementById('fromTokenDropdown');
+  const toTokenDropdown = document.getElementById('toTokenDropdown');
+
+  allOracles.forEach((oracle) => {
+      const fromOption = document.createElement('option');
+      fromOption.value = oracle;
+      fromOption.text = oracle;
+      console.log("oracle",oracle)
+
+      const toOption = document.createElement('option');
+      toOption.value = oracle;
+      toOption.text = oracle;
   });
-  
+}
+
+// Call the function when the page loads
+window.onload = populateDropdowns;

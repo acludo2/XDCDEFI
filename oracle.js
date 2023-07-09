@@ -190,20 +190,22 @@ async function createOracle() {
     console.log("Oracle created");
 }
 
-async function fulfillRequest() {
-    const oraclePrice = document.getElementById('oraclePrice').value;
-    await oracleContract.methods.fulfillRequest(oraclePrice).send({ from: accounts[0] });
+async function fulfillRequest(contract,price) {
+    console.log("")
+    let amountInWei = web3.utils.toWei(price, 'ether');
+    await contract.methods.fulfillRequest(amountInWei).send({ from: accounts[0] });
     console.log("Oracle request fulfilled");
 }
 
-const fetchOracleData = (pair) => {
+const fetchOracleData = (pair,contract) => {
     const apiUrl = 'https://openapi.bitrue.com/api/v1/ticker/price?symbol='+pair+'USDT';
     fetch(apiUrl, {})
         .then(response => response.json())
         .then(data => {
             console.log(data);
 	    console.log(data.price);
-	    document.getElementById(pair).innerHTML = data.price;	
+	    document.getElementById(pair).innerHTML = data.price;
+         	fulfillRequest(contract,data.price)
 	    return (data.price);
         })
         .catch(error => {
@@ -226,33 +228,40 @@ async function listOracles() {
         let newOracleRow = document.createElement('tr');
 
         let newOracleNameData = document.createElement('td');
-        newOracleNameData.textContent = oracleName; // Replace this with your oracle name
+        newOracleNameData.textContent = oracleName;
         newOracleRow.appendChild(newOracleNameData);
 
         let newOracleAddressData = document.createElement('td');
-        newOracleAddressData.textContent = oracleAddresses[i]; // Replace this with your oracle address
+        newOracleAddressData.textContent = oracleAddresses[i];
         newOracleRow.appendChild(newOracleAddressData);
 
         let newOraclePriceData = document.createElement('td');
-        newOraclePriceData.textContent = oraclePrice; // Replace this with your oracle price
+        newOraclePriceData.textContent = oraclePrice;
         newOracleRow.appendChild(newOraclePriceData);
 
-	let newOracleLivePriceData = document.createElement('td');
-	newOracleLivePriceData.setAttribute("id", oracleName);
-        //newOracleLivePriceData.textContent = fetchOracleData(oracleName); // Replace this with your oracle live price
-	fetchOracleData(oracleName);
-	setInterval(() => { fetchOracleData(oracleName); }, 5000);
-        newOracleRow.appendChild(newOracleLivePriceData);    
-        document.getElementById('oraclesContainer').appendChild(newOracleRow);
+        let newOracleLivePriceData = document.createElement('td');
+        newOracleLivePriceData.setAttribute("id", oracleName);
+        newOracleRow.appendChild(newOracleLivePriceData);
 
-	let newUpdateButton = document.createElement('td');
-	let button = document.createElement('button');
-	button.className = 'ui blue button';
-	button.id = 'updatePriceButton';
-	button.innerText = 'Update Price';
-	newUpdateButton.appendChild(button);
-	newOracleRow.appendChild(newUpdateButton);   
-   }
+        let newUpdateButton = document.createElement('td');
+        let button = document.createElement('button');
+        button.className = 'ui blue button';
+        button.id = 'updatePriceButton' + i;
+        button.innerText = 'Update Price';
+        newUpdateButton.appendChild(button);
+        newOracleRow.appendChild(newUpdateButton);
+
+        // Attach the event listener to the button
+        button.addEventListener('click', async function() {
+            let price = await fetchOracleData(oracleName, oracleContract);
+            console.log("Fetched price: ", price);
+            // Call fulfillRequest function with the fetched price
+            fulfillRequest(oracleContract, price);
+        });
+
+        document.getElementById('oraclesContainer').appendChild(newOracleRow);
+    }
+
 }
 
 window.addEventListener('load', listOracles);
