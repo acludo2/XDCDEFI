@@ -326,7 +326,7 @@ const contractABI = [
 
         }
         async function deposit() {
-            await contract.methods.deposit().send({ from: accounts[0], value: web3.utils.toWei('500', 'ether') });
+            await contract.methods.deposit().send({ from: accounts[0], value: web3.utils.toWei('1', 'ether') });
             console.log("Deposit successful");
         }
 
